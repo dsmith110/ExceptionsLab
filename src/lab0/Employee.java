@@ -20,11 +20,14 @@ import java.util.Date;
  */
 public class Employee {
     public static final int MAX_VACATION_DAYS = 28;
+    public static final int MIN_VACATION_DAYS = 0;
     private String firstName;
     private String lastName;
     private String ssn;
     private Date hireDate;
     private int daysVacation;
+    private static final String VACATION_ERROR = "Vacation days must be between"
+            + MIN_VACATION_DAYS + " and " + MAX_VACATION_DAYS;
 
     public Employee() {
         firstName = "Unknown";
@@ -47,6 +50,9 @@ public class Employee {
     }
 
     public void setDaysVacation(int daysVacation) {
+        if(daysVacation > MAX_VACATION_DAYS || daysVacation < MIN_VACATION_DAYS) {
+            throw new IllegalArgumentException(VACATION_ERROR);
+        }
         this.daysVacation = daysVacation;
     }
 

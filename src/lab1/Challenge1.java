@@ -16,7 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class Challenge1 {
     private static final int LAST_NAME_IDX = 1;
-    private static final int FIRST_NAME_IDX = 0;
+    private static final int LAST_NAME_IDX_WITH_MIDDLE = 2;
+    private static final int LAST_NAME_IDX_COMA = 0;
 
     public static void main(String[] args) {
         Challenge1 app = new Challenge1();
@@ -37,31 +38,26 @@ public class Challenge1 {
         if(fullName == null || fullName.length() == 0) {
             throw new IllegalArgumentException("Entry required.");
         }
-        String nameChars = fullName.replace(", ", "");
         
-        char[] chars = nameChars.toCharArray();
-        
-        for (char c : chars) {
-           if(!Character.isLetter(c)) {
-               throw new IllegalArgumentException("Name must contain letters");
-           } 
+        char nameChars[] = fullName.toCharArray();
+        for (char c : nameChars) {
+            if(!Character.isLetter(c) && !(c == ' ') && !(c == ',')) {
+                throw new IllegalArgumentException("Invalid character found");
+            }
         }
         
-        String[] nameParts = fullName.split(" ");
+        String nameParts[] = fullName.split(" ");
         
         if(fullName.contains(", ")) {
-           
-            return nameParts[LAST_NAME_IDX - 1];
-            
-        }  else if(nameParts.length == 2) {
-            
-            return nameParts[LAST_NAME_IDX];
-        } else if (nameParts.length == 3) {
-            
-            return nameParts[LAST_NAME_IDX + 1];
-        }   else {
-            throw new IllegalArgumentException("Name is invalid");
+            return nameParts[LAST_NAME_IDX_COMA].replace(",", "");
+        } else if(nameParts.length == 2) {
+                return nameParts[LAST_NAME_IDX];
+        } else if(nameParts.length == 3) {
+                return nameParts[LAST_NAME_IDX_WITH_MIDDLE];
+        } else {
+            throw new IllegalArgumentException("Invalid name");
         }
+        
     }
 
 }
