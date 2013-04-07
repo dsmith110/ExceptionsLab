@@ -10,6 +10,8 @@ package lab2;
 public class NameService {
     private static final int FIRST_NAME_IDX = 0;
     private static final int LAST_NAME_IDX = 1;
+    private static final int LAST_NAME_IDX_COMA = 0;
+    private static final int LAST_NAME_IDX_WITH_MIDDLE = 2;
     
     /**
      * Finds and returns the last name from within a full name. Caution: 
@@ -18,9 +20,29 @@ public class NameService {
      * @param fullName - a name containing a first name and a last name
      * @return the last name
      */
-    public String extractLastName(String fullName) {
-        String[] nameParts = fullName.split(" ");
-        return nameParts[LAST_NAME_IDX];
+    public String extractLastName(String fullName) throws IllegalArgumentException, Exception {
+        if(fullName == null || fullName.length() == 0) {
+            throw new IllegalArgumentException("Entry required.");
+        }
+        
+        char nameChars[] = fullName.toCharArray();
+        for (char c : nameChars) {
+            if(!Character.isLetter(c) && !(c == ' ') && !(c == ',')) {
+                throw new IllegalArgumentException("Invalid character found");
+            }
+        }
+        
+        String nameParts[] = fullName.split(" ");
+        
+        if(fullName.contains(", ")) {
+            return nameParts[LAST_NAME_IDX_COMA].replace(",", "");
+        } else if(nameParts.length == 2) {
+                return nameParts[LAST_NAME_IDX];
+        } else if(nameParts.length == 3) {
+                return nameParts[LAST_NAME_IDX_WITH_MIDDLE];
+        } else {
+            throw new IllegalArgumentException("Invalid name");
+        }
     }
     
     /**
