@@ -9,7 +9,13 @@ package lab4;
  */
 public class NameService {
     private static final int FIRST_NAME_IDX = 0;
+    private static final int FIRST_NAME_IDX_COMA = 1;
     private static final int LAST_NAME_IDX = 1;
+    private static final int LAST_NAME_IDX_COMA = 0;
+    private static final int LAST_NAME_IDX_WITH_MIDDLE = 2;
+    private static final String INVALID_NAME_ERR_MSG = "Invalid name";
+    private static final String INVALID_CHARACTER_ERR_MSG = "Invalid name";
+    private static final String ENTRY_REQUIRED_ERR_MSG = "Entry required";
     
     /**
      * Finds and returns the last name from within a full name. Caution: 
@@ -19,8 +25,28 @@ public class NameService {
      * @return the last name
      */
     public String extractLastName(String fullName) {
-        String[] nameParts = fullName.split(" ");
-        return nameParts[LAST_NAME_IDX];
+        if(fullName == null || fullName.length() == 0) {
+            throw new IllegalArgumentException(ENTRY_REQUIRED_ERR_MSG);
+        }
+        
+        char nameChars[] = fullName.toCharArray();
+        for (char c : nameChars) {
+            if(!Character.isLetter(c) && !(c == ' ') && !(c == ',')) {
+                throw new IllegalArgumentException(INVALID_CHARACTER_ERR_MSG);
+            }
+        }
+        
+        String nameParts[] = fullName.split(" ");
+        
+        if(fullName.contains(", ")) {
+            return nameParts[LAST_NAME_IDX_COMA].replace(",", "");
+        } else if(nameParts.length == 2) {
+                return nameParts[LAST_NAME_IDX];
+        } else if(nameParts.length == 3) {
+                return nameParts[LAST_NAME_IDX_WITH_MIDDLE];
+        } else {
+            throw new IllegalArgumentException(INVALID_NAME_ERR_MSG);
+        }
     }
     
     /**
@@ -31,8 +57,26 @@ public class NameService {
      * @return the first name
      */
     public String extractFirstName(String fullName) {
-        String[] nameParts = fullName.split(" ");
-        return nameParts[FIRST_NAME_IDX];
+        if(fullName == null || fullName.length() == 0) {
+            throw new IllegalArgumentException(ENTRY_REQUIRED_ERR_MSG);
+        }
+        
+        char nameChars[] = fullName.toCharArray();
+        for (char c : nameChars) {
+            if(!Character.isLetter(c) && !(c == ' ') && !(c == ',')) {
+                throw new IllegalArgumentException(INVALID_CHARACTER_ERR_MSG);
+            }
+        }
+        
+        String nameParts[] = fullName.split(" ");
+        
+        if(fullName.contains(", ")) {
+            return nameParts[FIRST_NAME_IDX_COMA];
+        } else if(nameParts.length == 2 || nameParts.length == 3) {
+                return nameParts[FIRST_NAME_IDX];
+        } else {
+            throw new IllegalArgumentException(INVALID_NAME_ERR_MSG);
+        }
     }
 
     /**
@@ -41,7 +85,10 @@ public class NameService {
      * @param name - any full name or part of a name.
      * @return the length of the name or part.
      */
-    public int getNameLength(String name) {
+    public int getNameLength(String name) throws IllegalArgumentException {
+        if(name == null || name.length() == 0) {
+            throw new IllegalArgumentException(ENTRY_REQUIRED_ERR_MSG);
+        }
         return name.length();
     }
     

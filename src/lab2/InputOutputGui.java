@@ -23,11 +23,7 @@ public class InputOutputGui {
             JOptionPane.showMessageDialog(null, msg);
         } catch (IllegalArgumentException iae) {
             JOptionPane.showMessageDialog(null, iae.getMessage());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
-        
+        } 
     }
      
 }
